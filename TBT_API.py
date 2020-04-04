@@ -6,6 +6,7 @@ from flask_cors import CORS
 import json
 
 import TBT_func
+import TBT_preset
 
 app = Flask(__name__)
 
@@ -132,9 +133,34 @@ def routeResponse():
 
 @app.route('/preset/', methods=['get'])
 def presetResponse():
-    param = request.args.get('id')
-    res = param
-    return res
+    try:
+        id = request.args.get('id')
+        case = request.args.get('case')
+        id = int(id)
+        case = int(case)
+    except:
+        js = TBT_func.ErrorGenPreset("TBT Param Error: parameter missing / parameter is not integer.")
+        res = Response(js, status=400, mimetype='application/json')
+        return res
+    else:
+        pass
+
+    validId = [0]
+    validCase = [[1,2,3,4]]
+
+    if (not int(id) in validId):
+        js = TBT_func.ErrorGenPreset("TBT Param Error: ID %d is not in the valid-preset-ID-list." % id)
+        res = Response(js, status=400, mimetype='application/json')
+        return res
+    elif (not int(case) in validCase[int(id)]):
+        errortype = "TBT Param Error: case %d is not in the valid-case-list for preset %d." % (case,id)
+        js = TBT_func.ErrorGenPreset(errortype)
+        res = Response(js, status=400, mimetype='application/json')
+        return res
+    else:
+        js = TBT_preset.preset(id, case)
+        res = Response(js, status=200, mimetype='application/json')
+        return res
 
 if __name__ == "__main__":
     # app.run(host="0.0.0.0",debug=True,port=2019)

@@ -19,6 +19,15 @@ def ErrorGen(ErrorType):
     js = json.dumps(msg, ensure_ascii=False)
     return js
 
+def ErrorGenPreset(ErrorType):
+    msg = {
+                "status": ErrorType,
+                "data": {
+                    }
+            }
+    js = json.dumps(msg, ensure_ascii=False)
+    return js
+
 def case1(distance_matrix, demands, dep_starts, dep_ends, vehicle_capacities):
     '''
     有车子数量以及每辆车的限载的约束时，输入参数为 dep_starts, dep_ends, num_vehicles, vehicle_capacities。
