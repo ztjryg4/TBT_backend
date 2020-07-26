@@ -22,7 +22,7 @@ def routetResponse():
 def routeResponse():
     data = request.get_json()
     mode = data['mode']
-    if mode == "both":
+    if mode == "both" or mode == "":
         # case1: 
         # distance_matrix, demands, dep_starts, dep_ends, vehicle_capacities
         distance_matrix = data['distance_matrix']
